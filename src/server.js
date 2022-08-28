@@ -1,6 +1,7 @@
 global.i18n = require('./utils/i18n');
+const fs = require('fs');
 
-const apps = require('fs').readdirSync('./src/apps/');
+const apps = fs.readdirSync('./src/apps/').filter((app) => fs.statSync(`./src/apps/${app}`).isDirectory());
 const list = require('./templates/list')({label: global.i18n.appList, items: apps});
 const html = require('./templates/html')({title: global.i18n.appList, body: list});
 
