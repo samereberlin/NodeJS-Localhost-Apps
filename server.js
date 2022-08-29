@@ -12,7 +12,7 @@ const server = require('http').createServer((req, res) => {
 		const indexOfSlash = req.url.indexOf('/', 1);
 		const app = req.url.substring(1, indexOfSlash > 0 ? indexOfSlash : req.url.length);
 		if (apps.includes(app)) {
-			require(`./${app}/foo/index.js`)(req, res);
+			require(`./${app}/index.js`)(req, res);
 		} else {
 			res.statusCode = 200;
 			res.setHeader('Content-Type', 'text/html');
