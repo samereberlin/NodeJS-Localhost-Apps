@@ -6,7 +6,11 @@ const list = require('./templates/list')({label: global.i18n.appList, items: app
 const html = require('./templates/html')({title: global.i18n.appList, body: list});
 
 const server = require('http').createServer((req, res) => {
-	// console.log("====> req:", req);
+	const indexOfSlash = req.url.indexOf('/', 1);
+	const app = req.url.substring(1, indexOfSlash > 0 ? indexOfSlash : req.url.length);
+	console.log('====> req.url:', req.url);
+	console.log('====> app:', app);
+	// console.log('====> req:', req);
 	// console.log("====> apps:", apps);
 
 	res.statusCode = 200;
