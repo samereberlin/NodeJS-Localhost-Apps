@@ -4,11 +4,13 @@ global.path = require('path');
 global.sendError = require('./.utils/sendError');
 global.sendFile = require('./.utils/sendFile');
 
-const apps = global.fs
+const appArr = global.fs
 	.readdirSync('./', {withFileTypes: true})
 	.filter((app) => app.name[0] !== '.' && app.isDirectory())
 	.map((app) => app.name);
-const list = require('./.templates/list')({label: global.i18n.appList, items: apps});
+const appObj = appArr.reduce((acc, app) => ({...acc, [app]: require(`./${app}/index.js`)}), {});
+
+const list = require('./.templates/list')({label: global.i18n.appList, items: appArr});
 const html = require('./.templates/html')({title: global.i18n.appList, body: list});
 
 const server = require('http').createServer((req, res) => {
@@ -24,8 +26,8 @@ const server = require('http').createServer((req, res) => {
 		} else {
 			const indexOfSlash = req.url.indexOf('/', 1);
 			const app = req.url.substring(1, indexOfSlash > 0 ? indexOfSlash : req.url.length);
-			if (apps.includes(app)) {
-				require(`./${app}/index.js`)(req, res);
+			if (appArr.includes(app)) {
+				appObj[app](req, res);
 			} else {
 				global.sendFile(req, res, global.path.join(__dirname, '.public', req.url));
 			}
