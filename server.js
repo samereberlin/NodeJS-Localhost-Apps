@@ -1,9 +1,10 @@
+global.fs = require('fs');
 global.i18n = require('./.utils/i18n');
+global.path = require('path');
 global.sendError = require('./.utils/sendError');
-const fs = require('fs');
-const path = require('path');
+global.sendFile = require('./.utils/sendFile');
 
-const apps = fs
+const apps = global.fs
 	.readdirSync('./', {withFileTypes: true})
 	.filter((app) => app.name[0] !== '.' && app.isDirectory())
 	.map((app) => app.name);
@@ -25,12 +26,8 @@ const server = require('http').createServer((req, res) => {
 			const app = req.url.substring(1, indexOfSlash > 0 ? indexOfSlash : req.url.length);
 			if (apps.includes(app)) {
 				require(`./${app}/index.js`)(req, res);
-			} else if (fs.existsSync(path.join(__dirname, '.public', req.url))) {
-				// TODO: Implement static file serving.
-				res.statusCode = 200;
-				res.end('Yes, the file exists.');
 			} else {
-				global.sendError(req, res, 404);
+				global.sendFile(req, res, global.path.join(__dirname, '.public', req.url));
 			}
 		}
 	} catch (error) {
