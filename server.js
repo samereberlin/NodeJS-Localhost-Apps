@@ -1,4 +1,5 @@
 global.i18n = require('./.utils/i18n');
+global.sendError = require('./.utils/sendError');
 const fs = require('fs');
 const path = require('path');
 
@@ -10,6 +11,7 @@ const list = require('./.templates/list')({label: global.i18n.appList, items: ap
 const html = require('./.templates/html')({title: global.i18n.appList, body: list});
 
 const server = require('http').createServer((req, res) => {
+	console.log(req.method, req.url);
 	try {
 		if (req.url === '/') {
 			res.statusCode = 200;
@@ -17,8 +19,7 @@ const server = require('http').createServer((req, res) => {
 			res.end(html);
 		} else if (req.url[1] === '?') {
 			// TODO: implement query parameter processing.
-			res.statusCode = 400;
-			res.end('ERROR 400: Bad Request.');
+			global.sendError(req, res, 400);
 		} else {
 			const indexOfSlash = req.url.indexOf('/', 1);
 			const app = req.url.substring(1, indexOfSlash > 0 ? indexOfSlash : req.url.length);
@@ -29,16 +30,14 @@ const server = require('http').createServer((req, res) => {
 				res.statusCode = 200;
 				res.end('Yes, the file exists.');
 			} else {
-				res.statusCode = 404;
-				res.end('ERROR 404: Not Found.');
+				global.sendError(req, res, 404);
 			}
 		}
 	} catch (error) {
-		res.statusCode = 500;
-		res.end('ERROR 500: Internal Server Error.');
+		global.sendError(req, res, 500);
 	}
 });
 
-server.listen(3000, () => {
-	console.log(`Server running at http://localhost:3000/`);
+server.listen(8080, '127.0.0.1', () => {
+	console.log(`Server running at http://localhost:8080/`);
 });
