@@ -5,9 +5,9 @@ global.path = require('path');
 global.sendError = require('./utils/sendError');
 global.sendFile = require('./utils/sendFile');
 
-const apps = require('./components/apps')('/apps/');
-const list = require('./components/list')({label: global.i18n.appList, items: apps});
-const html = require('./components/html')({title: global.i18n.appList, body: list});
+const apps = require('./components/apps')(`${global.dirname}/apps/`);
+const body = require('./components/body')({label: global.i18n.appList, apps});
+const html = require('./components/html')({title: global.i18n.appList, body});
 
 const server = require('http').createServer((req, res) => {
 	console.log(req.method, req.url);
@@ -21,9 +21,10 @@ const server = require('http').createServer((req, res) => {
 			global.sendError(req, res, 400);
 		} else {
 			const indexOfSlash = req.url.indexOf('/', 1);
-			const app = req.url.substring(1, indexOfSlash > 0 ? indexOfSlash : req.url.length);
-			if (apps[app]) {
-				apps[app].sendApp(req, res);
+			const appId = req.url.substring(1, indexOfSlash > 0 ? indexOfSlash : req.url.length);
+			const app = apps.find((app) => app.id === appId);
+			if (app) {
+				app.sendApp(req, res);
 			} else {
 				global.sendFile(req, res, global.path.join(__dirname, 'public', req.url));
 			}

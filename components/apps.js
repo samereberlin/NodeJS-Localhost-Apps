@@ -1,16 +1,9 @@
-module.exports = (prefix) =>
+module.exports = (dirnameApps) =>
 	global.fs
-		.readdirSync(`${global.dirname}${prefix}`, {withFileTypes: true})
+		.readdirSync(dirnameApps, {withFileTypes: true})
 		.filter((app) => app.isDirectory())
-		.map((app) => app.name)
-		.reduce(
-			(acc, app) => ({
-				...acc,
-				[app]: {
-					...require(`${global.dirname}${prefix}${app}/manifest.json`),
-					id: app,
-					sendApp: require(`${global.dirname}${prefix}${app}/index.js`),
-				},
-			}),
-			{},
-		);
+		.map((app) => ({
+			...require(`${dirnameApps}${app.name}/manifest.json`),
+			id: app.name,
+			sendApp: require(`${dirnameApps}${app.name}/index.js`),
+		}));
