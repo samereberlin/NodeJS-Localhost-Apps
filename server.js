@@ -1,17 +1,13 @@
+global.dirname = __dirname;
 global.fs = require('fs');
-global.i18n = require('./.utils/i18n');
+global.i18n = require('./utils/i18n');
 global.path = require('path');
-global.sendError = require('./.utils/sendError');
-global.sendFile = require('./.utils/sendFile');
+global.sendError = require('./utils/sendError');
+global.sendFile = require('./utils/sendFile');
 
-const appArr = global.fs
-	.readdirSync('./', {withFileTypes: true})
-	.filter((app) => app.name[0] !== '.' && app.isDirectory())
-	.map((app) => app.name);
-const appObj = appArr.reduce((acc, app) => ({...acc, [app]: require(`./${app}/index.js`)}), {});
-
-const list = require('./.templates/list')({label: global.i18n.appList, items: appArr});
-const html = require('./.templates/html')({title: global.i18n.appList, body: list});
+const apps = require('./components/apps')('/apps/');
+const list = require('./components/list')({label: global.i18n.appList, items: apps});
+const html = require('./components/html')({title: global.i18n.appList, body: list});
 
 const server = require('http').createServer((req, res) => {
 	console.log(req.method, req.url);
@@ -26,10 +22,10 @@ const server = require('http').createServer((req, res) => {
 		} else {
 			const indexOfSlash = req.url.indexOf('/', 1);
 			const app = req.url.substring(1, indexOfSlash > 0 ? indexOfSlash : req.url.length);
-			if (appArr.includes(app)) {
-				appObj[app](req, res);
+			if (apps[app]) {
+				apps[app].sendApp(req, res);
 			} else {
-				global.sendFile(req, res, global.path.join(__dirname, '.public', req.url));
+				global.sendFile(req, res, global.path.join(__dirname, 'public', req.url));
 			}
 		}
 	} catch (error) {
