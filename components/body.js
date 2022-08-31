@@ -1,4 +1,10 @@
+const header = require(`${global.dirname}/components/header`);
+
 module.exports = (params) => `
-	<p>${params.label}</p>
-	<ul>${params.apps.map((app) => `<li><a href="/${app.id}/">${app.name}</a></li>`).join('')}</ul>
+		${header({label: params.label, icon: '/favicon.ico'})}
+		<div class="list-group">
+			${params.apps
+				.map((app) => `<a href="/${app.id}/" class="list-group-item list-group-item-action">${app.name}</a>`)
+				.join('')}
+		</div>
 `;
