@@ -16,7 +16,7 @@ const map = {
 module.exports = (req, res, file) => {
 	if (global.fs.existsSync(file)) {
 		if (fs.statSync(file).isDirectory()) {
-			file += `${file.slice(-1) === '/' ? '' : '/'}index.html`;
+			file = global.path.join(file, 'index.html');
 			if (!global.fs.existsSync(file)) {
 				global.sendError(req, res, 404);
 			}

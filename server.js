@@ -5,7 +5,7 @@ global.path = require('path');
 global.sendError = require('./utils/sendError');
 global.sendFile = require('./utils/sendFile');
 
-const apps = require('./components/apps')(`${global.dirname}/apps/`);
+const apps = require('./components/apps')(global.path.join(global.dirname, 'apps'));
 const body = require('./components/body')({label: global.i18n.appList, apps});
 const html = require('./components/html')({title: global.i18n.appList, body});
 
