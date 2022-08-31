@@ -2,7 +2,11 @@ module.exports = (params) => `
 		<nav class="navbar navbar-dark bg-secondary bg-gradient">
 			<div class="container-fluid">
 				<span class="navbar-brand mb-0 h1">
-					<img src="${params.icon}" alt="" width="24" height="24" class="d-inline-block align-text-top">
+					${
+						params.icon[0] === '<'
+							? `<div style="display: inline-block; height: 24px; width: 24px">${params.icon}</div>`
+							: `<img src="${params.icon}" alt="" width="24" height="24" class="d-inline-block align-text-top">`
+					}
 					${params.label}
 				</span>
 			</div>
