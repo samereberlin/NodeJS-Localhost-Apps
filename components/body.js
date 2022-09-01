@@ -6,7 +6,7 @@ module.exports = (params) => `
 			${params.apps
 				.map(
 					(app) => `
-			<a href="/${app.id}/" class="list-group-item list-group-item-action">
+			<a href="/${app.id}/" class="list-group-item list-group-item-action ${global.themeDark ? 'text-bg-dark' : ''}">
 				<div style="display: inline-block; height: 20px; width: 20px">${app.icon}</div>
 				${app.name}
 			</a>

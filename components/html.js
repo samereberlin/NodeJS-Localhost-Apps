@@ -8,7 +8,7 @@ module.exports = (params) => `
 		<link href="/css/bootstrap.min.css" rel="stylesheet">
 		<link href="/css/global.css" rel="stylesheet">
 	</head>
-	<body>
+	<body class="${global.themeDark ? 'text-bg-dark' : ''}">
 		${params.body}
 		<script src="/js/bootstrap.bundle.min.js"></script>
 	</body>

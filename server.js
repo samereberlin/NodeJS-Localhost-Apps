@@ -4,6 +4,7 @@ global.i18n = require('./utils/i18n');
 global.path = require('path');
 global.sendError = require('./utils/sendError');
 global.sendFile = require('./utils/sendFile');
+global.themeDark = true;
 
 const apps = require('./components/apps')(global.path.join(global.dirname, 'apps'));
 const body = require('./components/body')({label: global.i18n.appList, apps});

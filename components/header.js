@@ -1,5 +1,5 @@
 module.exports = (params) => `
-		<nav class="navbar navbar-dark bg-secondary bg-gradient">
+		<nav class="navbar navbar-dark bg-gradient ${global.themeDark ? 'bg-dark' : 'bg-secondary'}">
 			<div class="container-fluid">
 				<span class="navbar-brand mb-0 h1">
 					${
