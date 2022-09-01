@@ -10,7 +10,7 @@ module.exports = (params) => `
 				<div style="display: inline-block; height: 20px; width: 20px">${app.icon}</div>
 				${app.name}
 			</a>
-			`,
+`,
 				)
 				.join('')}
 		</div>
