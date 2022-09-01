@@ -1,6 +1,12 @@
 const manifest = require('./manifest.json');
-const header = require(`${global.dirname}/components/header`)({label: manifest.name, icon: manifest.icon});
-const html = require(`${global.dirname}/components/html`)({title: manifest.name, body: header});
+const header = global.interpolate(global.path.join(global.dirname, 'components', 'header.html'), {
+	label: manifest.name,
+	icon: manifest.icon,
+});
+const html = global.interpolate(global.path.join(global.dirname, 'components', 'html.html'), {
+	title: manifest.name,
+	body: header,
+});
 
 module.exports = (req, res) => {
 	res.statusCode = 200;

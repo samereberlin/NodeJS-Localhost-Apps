@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"private": true,
 	"scripts": {
-		"start": "nodemon server.js",
+		"start": "nodemon server.js -e js,json,html",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	}
 }

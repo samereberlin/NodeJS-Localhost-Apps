@@ -1,14 +1,21 @@
 global.dirname = __dirname;
 global.fs = require('fs');
 global.i18n = require('./utils/i18n');
+global.interpolate = require('./utils/interpolate');
 global.path = require('path');
 global.sendError = require('./utils/sendError');
 global.sendFile = require('./utils/sendFile');
-global.themeDark = true;
+global.themeDark = false;
 
 const apps = require('./components/apps')(global.path.join(global.dirname, 'apps'));
-const body = require('./components/body')({label: global.i18n.appList, apps});
-const html = require('./components/html')({title: global.i18n.appList, body});
+const body = global.interpolate(global.path.join(global.dirname, 'components', 'body.html'), {
+	label: global.i18n.appList,
+	apps,
+});
+const html = global.interpolate(global.path.join(global.dirname, 'components', 'html.html'), {
+	title: global.i18n.appList,
+	body,
+});
 
 const server = require('http').createServer((req, res) => {
 	console.log(req.method, req.url);
