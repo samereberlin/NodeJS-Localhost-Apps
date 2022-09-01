@@ -1,6 +1,6 @@
 # NodeJS Localhost Apps
 
-NodeJS Localhost Apps project is a lightweight and modularized application server, composed by a set of browser based utilities (available via http://localhost:3000) designed to help with daily basis activities (e.g. file manager, text editor, media player/miner, calculator, games, etc.).
+NodeJS Localhost Apps project is a lightweight and modularized application server, composed by a set of browser based utilities (available via http://localhost:8080) designed to help with daily basis activities (e.g. file manager, text editor, media player/miner, calculator, games, etc.).
 
 ## Working in progress
 
