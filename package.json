@@ -1,9 +1,9 @@
 {
 	"name": "nodejs-localhost-apps",
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"start": "nodemon server.js -e js,json,html",
+		"start": "nodemon server.js -e js,json,html,css",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	}
 }

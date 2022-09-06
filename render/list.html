@@ -1,0 +1,7 @@
+<div class="list-group rounded-0">
+	${d.map((item) => `
+	<a href="/${item.id}/" class="list-group-item list-group-item-action ${global.themeDark ? 'text-bg-dark' : ''}">
+		${global.render('icon.html', {icon: item.icon, size: 20})} ${item.name}
+	</a>
+	`).join('')}
+</div>

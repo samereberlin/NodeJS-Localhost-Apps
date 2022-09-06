@@ -1,29 +1,25 @@
-global.dirname = __dirname;
 global.fs = require('fs');
-global.i18n = require('./utils/i18n');
-global.interpolate = require('./utils/interpolate');
 global.path = require('path');
-global.sendError = require('./utils/sendError');
-global.sendFile = require('./utils/sendFile');
+
+// global.dirRoot = __dirname;
 global.themeDark = false;
 
-const apps = require('./components/apps')(global.path.join(global.dirname, 'apps'));
-const body = global.interpolate(global.path.join(global.dirname, 'components', 'body.html'), {
-	label: global.i18n.appList,
-	apps,
-});
-const html = global.interpolate(global.path.join(global.dirname, 'components', 'html.html'), {
-	title: global.i18n.appList,
-	body,
-});
+global.i18n = require('./utils/i18n');
+global.render = require('./render');
+global.sendError = require('./utils/sendError');
+global.sendFile = require('./utils/sendFile');
+global.sendHtml = require('./utils/sendHtml');
+
+const apps = require('./apps')();
+const list = global.render('list.html', apps);
+const navbar = global.render('navbar.html', {icon: '/favicon.ico', label: global.i18n.appName});
+const html = global.render('html.html', {title: global.i18n.appName, body: `${navbar}${list}`});
 
 const server = require('http').createServer((req, res) => {
 	console.log(req.method, req.url);
 	try {
 		if (req.url === '/') {
-			res.statusCode = 200;
-			res.setHeader('Content-Type', 'text/html');
-			res.end(html);
+			global.sendHtml(req, res, html);
 		} else if (req.url[1] === '?') {
 			// TODO: implement query parameter processing.
 			global.sendError(req, res, 400);

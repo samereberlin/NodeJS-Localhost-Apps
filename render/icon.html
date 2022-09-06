@@ -1,0 +1,5 @@
+${d.icon[0] === '<' ? `
+<div style="display: inline-block; height: ${d.size}px; width: ${d.size}px">${d.icon}</div>
+` : d.icon.length ? `
+<img src="${d.icon}" alt="" width="${d.size}" height="${d.size}" class="d-inline-block align-text-top" />
+` : ''}
